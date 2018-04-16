@@ -1,14 +1,62 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
-  <title>EnlSchool</title>
+  <title>ENL Academy</title>
   <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+
+  <!-- Styles for when js is disabled -->
+  <style>
+    .enl-no-js {
+      transform: translate(-50%, -50%);
+      position: absolute;
+      height: 50%;
+      width: 50%;
+      top: 50%;
+      left: 50%;
+      overflow: auto;
+      text-align: center;
+    }
+
+    @keyframes spinner {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .spinner:before {
+      content: '';
+      box-sizing: border-box;
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      margin-top: -15px;
+      margin-left: -15px;
+      border-radius: 50%;
+      border: 1px solid #ccc;
+      border-top-color: #f44336;
+      animation: spinner .6s linear infinite;
+    }
+  </style>
 </head>
+
 <body>
-  <enl-root></enl-root>
+  <enl-root>
+    <!-- Basic info -->
+    <div class="enl-no-js">
+      <img src="icons/icon-96x96.png" srcset="icons/icon-144x144.png 3x, icons/icon-192x192.png 4x" alt="App Icon" width="48" height="48">
+      <h1>ENL Christian Academy</h1>
+      <h2>Please wait while we get things going...</h2>
+      <div class="spinner"></div>
+    </div>
+  </enl-root>
 </body>
+
 </html>
