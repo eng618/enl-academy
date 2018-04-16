@@ -4,3 +4,19 @@
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
 // @include mat-core();
+
+body {
+  background-color: #212121;
+  color: #ffffff;
+}
+
+.enl-spacer {
+  flex: 1 1 auto;
+}
+
+.enl-wrapper {
+  max-width: 1192px;
+  margin: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}

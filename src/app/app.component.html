@@ -1,5 +1,22 @@
 <div class='enl-app-container'>
-  <mat-toolbar color='primary'>{{ title }}</mat-toolbar>
+  <mat-toolbar color='primary'>
+    <div class='enl-header' [routerLink]="['/']">
+      {{ title }}
+    </div>
+
+    <span class='enl-spacer'></span>
+
+    <button class='enl-menu pointer' mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item [routerLink]="['/lessons']">
+        <mat-icon><i class="material-icons">work</i></mat-icon>
+        <span>Lessons</span>
+      </button>
+    </mat-menu>
+
+  </mat-toolbar>
 
   <router-outlet></router-outlet>
 </div>

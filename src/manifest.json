@@ -2,7 +2,7 @@
   "name": "ENL Christian Academy",
   "short_name": "ENL Academy",
   "theme_color": "#4a148c",
-  "background_color": "#FFFFFF",
+  "background_color": "#212121",
   "display": "standalone",
   "Scope": "/",
   "start_url": "/"
