@@ -13,12 +13,14 @@ import { LessonsComponent } from './pages/lessons/lessons.component';
 
 import { environment } from '../environments/environment';
 import { HomeComponent } from './pages/home/home.component';
+import { UnknownComponent } from './pages/unknown/unknown.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LessonsComponent,
-    HomeComponent
+    HomeComponent,
+    UnknownComponent
   ],
   imports: [
     MaterialModule,
