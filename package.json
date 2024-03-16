@@ -6,7 +6,9 @@
     "clean": "gatsby clean",
     "develop": "gatsby develop",
     "build": "gatsby build",
-    "serve": "gatsby serve"
+    "build:prod": "gatsby build --prefix-paths",
+    "serve": "gatsby serve",
+    "validate": "echo \"TODO: set up validation\""
   },
   "engines": {
     "node": ">=18.0.0"
