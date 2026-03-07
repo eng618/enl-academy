@@ -1,0 +1,137 @@
+@import 'tailwindcss';
+
+@source '../../node_modules/@gv-tech/ui-web/dist/**/*.{js,mjs,cjs}';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: var(--font-source-sans);
+  --font-title: var(--font-fraunces);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --background: hsl(0 0% 96%);
+  --foreground: hsl(222 47% 11%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(222 47% 11%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(222 47% 11%);
+  --primary: hsl(225 73% 57%);
+  --primary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(93 28% 54%);
+  --secondary-foreground: hsl(0 0% 100%);
+  --muted: hsl(0 0% 92%);
+  --muted-foreground: hsl(215 16% 47%);
+  --accent: hsl(0 0% 88%);
+  --accent-foreground: hsl(222 47% 11%);
+  --destructive: hsl(0 84.2% 60.2%);
+  --destructive-foreground: hsl(0 0% 100%);
+  --border: hsl(0 0% 89%);
+  --input: hsl(0 0% 89%);
+  --ring: hsl(222 47% 11%);
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: hsl(0 0% 9%);
+  --foreground: hsl(0 0% 100%);
+  --card: hsl(0 0% 14%);
+  --card-foreground: hsl(0 0% 100%);
+  --popover: hsl(0 0% 11%);
+  --popover-foreground: hsl(0 0% 100%);
+  --primary: hsl(227 96% 71%);
+  --primary-foreground: hsl(0 0% 9%);
+  --secondary: hsl(96 44% 61%);
+  --secondary-foreground: hsl(0 0% 9%);
+  --muted: hsl(0 0% 6%);
+  --muted-foreground: hsl(0 0% 70%);
+  --accent: hsl(0 0% 15%);
+  --accent-foreground: hsl(0 0% 100%);
+  --destructive: hsl(0 62.8% 30.6%);
+  --destructive-foreground: hsl(0 0% 100%);
+  --border: hsl(0 0% 18%);
+  --input: hsl(0 0% 18%);
+  --ring: hsl(0 0% 90%);
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-source-sans), ui-sans-serif, system-ui;
+  background-image:
+    radial-gradient(circle at 10% 0%, color-mix(in oklab, var(--site-brand) 28%, transparent) 0, transparent 35%),
+    radial-gradient(circle at 85% 12%, color-mix(in oklab, var(--site-accent) 40%, transparent) 0, transparent 30%);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.font-title {
+  font-family: var(--font-fraunces), ui-serif, Georgia, serif;
+}
+
+.hero-panel {
+  position: relative;
+  background: linear-gradient(
+    130deg,
+    color-mix(in oklab, var(--site-surface) 88%, var(--site-accent) 12%) 0%,
+    color-mix(in oklab, var(--site-surface) 72%, var(--site-brand) 28%) 100%
+  );
+}
+
+.hero-panel::before {
+  content: '';
+  position: absolute;
+  inset: -20% auto auto -10%;
+  width: 18rem;
+  height: 18rem;
+  border-radius: 999px;
+  background: radial-gradient(circle, color-mix(in oklab, var(--site-brand) 34%, transparent) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .hero-panel::before {
+    width: 12rem;
+    height: 12rem;
+  }
+}

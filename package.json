@@ -1,46 +1,57 @@
 {
-  "name": "gatsby-starter-portfolio-minimal-theme",
-  "version": "1.0.0",
-  "description": "A Gatsby Starter Project to easily get started with the Portfolio Minimal Theme.",
+  "name": "enlacademy8600",
+  "version": "0.1.0",
   "scripts": {
-    "clean": "gatsby clean",
-    "develop": "gatsby develop",
-    "build": "gatsby build",
-    "build:prod": "gatsby build --prefix-paths",
-    "serve": "gatsby serve",
-    "validate": "echo \"TODO: set up validation\""
-  },
-  "engines": {
-    "node": ">=18.0.0"
+    "build": "next build",
+    "dev": "next dev",
+    "format": "prettier --write .",
+    "format:ci": "prettier --check .",
+    "lint": "eslint . --cache",
+    "lint:fix": "eslint . --cache --fix",
+    "lint:report": "eslint . --cache -o ./eslintReport.html -f html",
+    "prepare": "husky",
+    "start": "next start"
   },
   "dependencies": {
-    "gatsby": "^5.13.3",
-    "gatsby-theme-portfolio-minimal": "^4.6.5",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "@gv-tech/ui-web": "^2.16.0",
+    "next": "16.1.6",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
   },
-  "author": "Eric N. Garcia <eng618@garciaericn.com>",
-  "license": "0BSD",
-  "starter-name": "gatsby-starter-portfolio-minimal-theme",
-  "homepage": "https://garciaericn.com",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/konstantinmuenster/gatsby-starter-portfolio-minimal-theme.git"
+  "devDependencies": {
+    "@eng618/prettier-config": "^2.10.0",
+    "@gv-tech/eslint-config": "^0.1.14",
+    "@next/eslint-plugin-next": "^16.1.6",
+    "@tailwindcss/postcss": "^4.2.1",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "9.39.1",
+    "eslint-config-next": "16.1.6",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.3.2",
+    "postcss": "^8.5.8",
+    "prettier": "^3.8.1",
+    "tailwindcss": "^4.2.1",
+    "typescript": "^5.9.3"
   },
-  "bugs": {
-    "url": "https://github.com/konstantinmuenster/gatsby-starter-portfolio-minimal-theme/issues"
+  "private": true,
+  "lint-staged": {
+    "*.(js|ts|mjs|cjs)?(x)": [
+      "prettier --write",
+      "eslint --cache --fix"
+    ],
+    "*.(md)?(x)": [
+      "prettier --write"
+    ]
   },
-  "keywords": [
-    "react",
-    "gatsby",
-    "gatsby-theme",
-    "PWA",
-    "portfolio",
-    "showcase",
-    "minimal",
-    "animations",
-    "dark-mode",
-    "gdpr-compliant"
+  "prettier": "@eng618/prettier-config",
+  "ignoreScripts": [
+    "sharp",
+    "unrs-resolver"
   ],
-  "packageManager": "yarn@4.1.1"
+  "trustedDependencies": [
+    "sharp",
+    "unrs-resolver"
+  ]
 }
