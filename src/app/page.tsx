@@ -62,12 +62,12 @@ const resources = [
 
 export default function Home() {
   return (
-    <div className="bg-background text-foreground min-h-screen">
+    <div className="site-wrap">
       <SiteHeader />
 
-      <main className="mx-auto w-full max-w-6xl px-4 pt-8 sm:px-6 lg:px-8">
+      <main className="site-main">
         <section id="welcome" className="hero-panel border-border/80 overflow-hidden rounded-3xl border p-6 sm:p-10">
-          <div className="relative z-10 max-w-3xl space-y-5">
+          <div className="hero-copy space-y-5">
             <Badge variant="secondary">Homeschooling with Purpose</Badge>
             <Text as="h1" variant="h1" className="font-title leading-tight text-balance">
               Nurturing Hearts and Minds for Christ
@@ -76,7 +76,7 @@ export default function Home() {
               Welcome to our family homeschool space. We are building a gentle, gospel-rooted learning life where truth,
               wonder, and discipline grow together over time.
             </Text>
-            <div className="flex flex-wrap gap-3 pt-2">
+            <div className="hero-actions">
               <Button asChild>
                 <a href="#learning">Explore Learning Areas</a>
               </Button>
@@ -87,9 +87,9 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="about" className="mt-12 grid gap-4 md:grid-cols-3">
+        <section id="about" className="site-section site-grid-3">
           {values.map((value) => (
-            <Card key={value.title} className="border-border/70 bg-card/90">
+            <Card key={value.title} className="site-card">
               <CardHeader>
                 <CardTitle>{value.title}</CardTitle>
                 <CardDescription>{value.description}</CardDescription>
@@ -98,7 +98,7 @@ export default function Home() {
           ))}
         </section>
 
-        <section id="faith" className="border-border/70 bg-card/90 mt-12 rounded-2xl border p-6 sm:p-8">
+        <section id="faith" className="site-section site-card rounded-2xl border p-6 sm:p-8">
           <Text as="h2" variant="h2" className="font-title">
             Faith Statement
           </Text>
@@ -108,13 +108,13 @@ export default function Home() {
           </Text>
         </section>
 
-        <section id="learning" className="mt-12">
+        <section id="learning" className="site-section">
           <Text as="h2" variant="h2" className="font-title">
             Learning Areas
           </Text>
-          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="site-grid-3 mt-5">
             {learningAreas.map((area) => (
-              <Card key={area} className="border-border/70">
+              <Card key={area} className="site-card">
                 <CardContent className="p-5">
                   <Text variant="label" className="text-foreground">
                     {area}
@@ -125,13 +125,13 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="rhythm" className="mt-12">
+        <section id="rhythm" className="site-section">
           <Text as="h2" variant="h2" className="font-title">
             Weekly Rhythm
           </Text>
-          <div className="mt-5 grid gap-4 md:grid-cols-3">
+          <div className="site-grid-3 mt-5">
             {rhythm.map((period) => (
-              <Card key={period.slot} className="border-border/70 bg-card">
+              <Card key={period.slot} className="site-card">
                 <CardHeader>
                   <CardTitle>{period.slot}</CardTitle>
                   <CardDescription>{period.detail}</CardDescription>
@@ -141,13 +141,13 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="resources" className="mt-12 pb-2">
+        <section id="resources" className="site-section pb-2">
           <Text as="h2" variant="h2" className="font-title">
             Resources
           </Text>
-          <div className="mt-5 grid gap-4 md:grid-cols-3">
+          <div className="site-grid-3 mt-5">
             {resources.map((resource) => (
-              <Card key={resource.title} className="border-border/70 bg-card/95">
+              <Card key={resource.title} className="site-card">
                 <CardHeader>
                   <CardTitle>{resource.title}</CardTitle>
                   <CardDescription>{resource.description}</CardDescription>

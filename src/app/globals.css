@@ -129,6 +129,117 @@ a {
   pointer-events: none;
 }
 
+.site-wrap {
+  min-height: 100vh;
+  color: var(--foreground);
+  background-color: var(--background);
+}
+
+.site-frame {
+  width: min(72rem, calc(100% - 2rem));
+  margin-inline: auto;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
+  background: color-mix(in oklab, var(--background) 90%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+.site-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-block: 0.75rem;
+}
+
+.site-title {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.site-nav {
+  display: none;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.site-main {
+  width: min(72rem, calc(100% - 2rem));
+  margin-inline: auto;
+  padding-top: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.site-section {
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 10;
+  max-width: 48rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+}
+
+.site-grid-3 {
+  display: grid;
+  gap: 1rem;
+}
+
+.site-card {
+  border-color: color-mix(in oklab, var(--border) 70%, transparent);
+  background: color-mix(in oklab, var(--card) 92%, transparent);
+}
+
+.site-footer {
+  width: min(72rem, calc(100% - 2rem));
+  margin: 5rem auto 0;
+  padding-bottom: 2.5rem;
+}
+
+.site-footer-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .site-nav {
+    display: flex;
+  }
+
+  .site-grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .site-footer-row {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-frame,
+  .site-main,
+  .site-footer {
+    width: calc(100% - 1.25rem);
+  }
+}
+
 @media (max-width: 640px) {
   .hero-panel::before {
     width: 12rem;
