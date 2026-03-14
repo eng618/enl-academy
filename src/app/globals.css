@@ -1,32 +1,34 @@
 @import 'tailwindcss';
 
+@source '../**/*.{js,ts,jsx,tsx,mdx}';
+@source '../../node_modules/@gv-tech/ui-web/src/**/*.{ts,tsx}';
 @source '../../node_modules/@gv-tech/ui-web/dist/**/*.{js,mjs,cjs}';
 
 @custom-variant dark (&:is(.dark *));
 
-@theme inline {
+@theme {
   --font-sans: var(--font-source-sans);
   --font-title: var(--font-fraunces);
 
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -34,49 +36,61 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-:root {
-  --background: hsl(0 0% 96%);
-  --foreground: hsl(222 47% 11%);
-  --card: hsl(0 0% 100%);
-  --card-foreground: hsl(222 47% 11%);
-  --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(222 47% 11%);
-  --primary: hsl(225 73% 57%);
-  --primary-foreground: hsl(0 0% 100%);
-  --secondary: hsl(93 28% 54%);
-  --secondary-foreground: hsl(0 0% 100%);
-  --muted: hsl(0 0% 92%);
-  --muted-foreground: hsl(215 16% 47%);
-  --accent: hsl(0 0% 88%);
-  --accent-foreground: hsl(222 47% 11%);
-  --destructive: hsl(0 84.2% 60.2%);
-  --destructive-foreground: hsl(0 0% 100%);
-  --border: hsl(0 0% 89%);
-  --input: hsl(0 0% 89%);
-  --ring: hsl(222 47% 11%);
-  --radius: 0.5rem;
-}
+@layer base {
+  :root {
+    --background: 0 0% 96%;
+    --foreground: 222.2 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47% 11%;
+    --primary: 225 73% 57%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 93 28% 54%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 92%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 0 0% 88%;
+    --accent-foreground: 222.2 47% 11%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 89%;
+    --input: 0 0% 89%;
+    --ring: 222.2 47% 11%;
+    --radius: 0.5rem;
 
-.dark {
-  --background: hsl(0 0% 9%);
-  --foreground: hsl(0 0% 100%);
-  --card: hsl(0 0% 14%);
-  --card-foreground: hsl(0 0% 100%);
-  --popover: hsl(0 0% 11%);
-  --popover-foreground: hsl(0 0% 100%);
-  --primary: hsl(227 96% 71%);
-  --primary-foreground: hsl(0 0% 9%);
-  --secondary: hsl(96 44% 61%);
-  --secondary-foreground: hsl(0 0% 9%);
-  --muted: hsl(0 0% 6%);
-  --muted-foreground: hsl(0 0% 70%);
-  --accent: hsl(0 0% 15%);
-  --accent-foreground: hsl(0 0% 100%);
-  --destructive: hsl(0 62.8% 30.6%);
-  --destructive-foreground: hsl(0 0% 100%);
-  --border: hsl(0 0% 18%);
-  --input: hsl(0 0% 18%);
-  --ring: hsl(0 0% 90%);
+    /* Semantic helpers — must be full CSS colors for use in color-mix() / gradients */
+    --site-brand: hsl(var(--primary));
+    --site-accent: hsl(var(--secondary));
+    --site-surface: hsl(var(--card));
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 14%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 11%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 227 96% 71%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 96 44% 61%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 6%;
+    --muted-foreground: 0 0% 70%;
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 0 0% 90%;
+
+    /* Semantic helpers — must be full CSS colors for use in color-mix() / gradients */
+    --site-brand: hsl(var(--primary));
+    --site-accent: hsl(var(--secondary));
+    --site-surface: hsl(var(--card));
+  }
 }
 
 html,
@@ -87,17 +101,18 @@ body {
 
 body {
   font-family: var(--font-source-sans), ui-sans-serif, system-ui;
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--background));
   background-image:
-    radial-gradient(circle at 10% 0%, color-mix(in oklab, var(--site-brand) 28%, transparent) 0, transparent 35%),
-    radial-gradient(circle at 85% 12%, color-mix(in oklab, var(--site-accent) 40%, transparent) 0, transparent 30%);
+    radial-gradient(circle at 8% 0%, color-mix(in oklab, var(--site-brand) 16%, transparent) 0, transparent 30%),
+    radial-gradient(circle at 92% 10%, color-mix(in oklab, var(--site-accent) 20%, transparent) 0, transparent 24%),
+    linear-gradient(180deg, color-mix(in oklab, hsl(var(--background)) 92%, white) 0%, hsl(var(--background)) 100%);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 * {
   box-sizing: border-box;
-  padding: 0;
-  margin: 0;
 }
 
 a {
@@ -107,142 +122,4 @@ a {
 
 .font-title {
   font-family: var(--font-fraunces), ui-serif, Georgia, serif;
-}
-
-.hero-panel {
-  position: relative;
-  background: linear-gradient(
-    130deg,
-    color-mix(in oklab, var(--site-surface) 88%, var(--site-accent) 12%) 0%,
-    color-mix(in oklab, var(--site-surface) 72%, var(--site-brand) 28%) 100%
-  );
-}
-
-.hero-panel::before {
-  content: '';
-  position: absolute;
-  inset: -20% auto auto -10%;
-  width: 18rem;
-  height: 18rem;
-  border-radius: 999px;
-  background: radial-gradient(circle, color-mix(in oklab, var(--site-brand) 34%, transparent) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-.site-wrap {
-  min-height: 100vh;
-  color: var(--foreground);
-  background-color: var(--background);
-}
-
-.site-frame {
-  width: min(72rem, calc(100% - 2rem));
-  margin-inline: auto;
-}
-
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  border-bottom: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
-  background: color-mix(in oklab, var(--background) 90%, transparent);
-  backdrop-filter: blur(10px);
-}
-
-.site-header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding-block: 0.75rem;
-}
-
-.site-title {
-  display: block;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.site-nav {
-  display: none;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.site-main {
-  width: min(72rem, calc(100% - 2rem));
-  margin-inline: auto;
-  padding-top: clamp(1.5rem, 3vw, 2.25rem);
-}
-
-.site-section {
-  margin-top: clamp(2rem, 4vw, 3rem);
-}
-
-.hero-copy {
-  position: relative;
-  z-index: 10;
-  max-width: 48rem;
-}
-
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  padding-top: 0.5rem;
-}
-
-.site-grid-3 {
-  display: grid;
-  gap: 1rem;
-}
-
-.site-card {
-  border-color: color-mix(in oklab, var(--border) 70%, transparent);
-  background: color-mix(in oklab, var(--card) 92%, transparent);
-}
-
-.site-footer {
-  width: min(72rem, calc(100% - 2rem));
-  margin: 5rem auto 0;
-  padding-bottom: 2.5rem;
-}
-
-.site-footer-row {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 0.75rem;
-}
-
-@media (min-width: 768px) {
-  .site-nav {
-    display: flex;
-  }
-
-  .site-grid-3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .site-footer-row {
-    flex-direction: row;
-    align-items: center;
-  }
-}
-
-@media (max-width: 640px) {
-  .site-frame,
-  .site-main,
-  .site-footer {
-    width: calc(100% - 1.25rem);
-  }
-}
-
-@media (max-width: 640px) {
-  .hero-panel::before {
-    width: 12rem;
-    height: 12rem;
-  }
 }

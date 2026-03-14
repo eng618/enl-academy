@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${fraunces.variable} ${sourceSans.variable} bg-background text-foreground antialiased`}>
         <Providers>{children}</Providers>
       </body>

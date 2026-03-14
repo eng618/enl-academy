@@ -1,16 +1,10 @@
-import { Separator, Text } from '@gv-tech/ui-web';
+import { Text } from '@gv-tech/ui-web';
 
 export function SiteFooter() {
   return (
-    <footer className="site-footer">
-      <Separator className="mb-6" />
-      <div className="site-footer-row">
-        <Text variant="caption" className="text-muted-foreground">
-          Built with faith, curiosity, and daily habits of learning.
-        </Text>
-        <Text variant="caption" className="text-muted-foreground">
-          Psalm 119:105
-        </Text>
+    <footer className="mx-auto mt-24 w-full max-w-7xl px-4 pt-8 pb-12">
+      <div className="flex flex-col">
+        <Text variant="caption">Psalm 119:105</Text>
       </div>
     </footer>
   );
