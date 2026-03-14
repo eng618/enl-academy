@@ -69,7 +69,7 @@ const resources = [
 
 function SectionIntro({ eyebrow, title, description }: { eyebrow: string; title: string; description: string }) {
   return (
-    <div className="max-w-2xl space-y-3">
+    <div className="space-y-3">
       <Text variant="overline">{eyebrow}</Text>
       <Text as="h2" variant="h2" className="font-title">
         {title}
@@ -161,15 +161,17 @@ export function HeroSection() {
 export function ValueGrid() {
   return (
     <section id="about" className="py-20">
-      <SectionIntro
-        eyebrow="Foundations"
-        title="A steady learning life built around conviction, craft, and joy."
-        description="These are the habits and values that shape the tone of our homeschool from one week to the next."
-      />
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {values.map((value) => (
-          <InfoCard key={value.title} title={value.title} description={value.description} />
-        ))}
+      <div className="mx-auto max-w-6xl space-y-10">
+        <SectionIntro
+          eyebrow="About"
+          title="A steady learning life built around conviction, craft, and joy."
+          description="These are the habits and values that shape the tone of our homeschool from one week to the next."
+        />
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {values.map((value) => (
+            <InfoCard key={value.title} title={value.title} description={value.description} />
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -178,18 +180,13 @@ export function ValueGrid() {
 export function FaithStatement() {
   return (
     <section id="faith" className="py-20">
-      <Card className="mx-auto max-w-3xl">
-        <CardHeader>
-          <Text variant="overline">Faith</Text>
-          <CardTitle>Faith Statement</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Text as="p" variant="body">
-            We believe all wisdom begins with reverence for God. We teach our children that learning is stewardship,
-            truth is found in Christ, and every subject can be explored with gratitude and integrity.
-          </Text>
-        </CardContent>
-      </Card>
+      <div className="mx-auto max-w-6xl">
+        <SectionIntro
+          eyebrow="Faith"
+          title="Faith Statement"
+          description="We believe all wisdom begins with reverence for God. We teach our children that learning is stewardship, truth is found in Christ, and every subject can be explored with gratitude and integrity."
+        />
+      </div>
     </section>
   );
 }
@@ -197,15 +194,17 @@ export function FaithStatement() {
 export function LearningAreasSection() {
   return (
     <section id="learning" className="py-20">
-      <SectionIntro
-        eyebrow="Studies"
-        title="Learning areas we return to each week."
-        description="We keep a broad course of study, but move through it with a gentle pace and consistent attention."
-      />
-      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-        {learningAreas.map((area) => (
-          <LabelCard key={area} label={area} />
-        ))}
+      <div className="mx-auto max-w-6xl space-y-10">
+        <SectionIntro
+          eyebrow="Learning"
+          title="Learning areas we return to each week"
+          description="We keep a broad course of study, but move through it with a gentle pace and consistent attention."
+        />
+        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+          {learningAreas.map((area) => (
+            <LabelCard key={area} label={area} />
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -214,15 +213,17 @@ export function LearningAreasSection() {
 export function RhythmSection() {
   return (
     <section id="rhythm" className="py-20">
-      <SectionIntro
-        eyebrow="Cadence"
-        title="A simple weekly rhythm that keeps the day peaceful."
-        description="We use a steady shape for our days so academics, imagination, and rest all have room to breathe."
-      />
-      <div className="grid gap-6 md:grid-cols-3">
-        {rhythm.map((period) => (
-          <InfoCard key={period.slot} title={period.slot} description={period.detail} />
-        ))}
+      <div className="mx-auto max-w-6xl space-y-10">
+        <SectionIntro
+          eyebrow="Rhythm"
+          title="A simple weekly rhythm that keeps the day peaceful."
+          description="We use a steady shape for our days so academics, imagination, and rest all have room to breathe."
+        />
+        <div className="grid gap-6 md:grid-cols-3">
+          {rhythm.map((period) => (
+            <InfoCard key={period.slot} title={period.slot} description={period.detail} />
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -231,25 +232,27 @@ export function RhythmSection() {
 export function ResourcesSection() {
   return (
     <section id="resources" className="py-20">
-      <SectionIntro
-        eyebrow="Resources"
-        title="Helpful touchpoints for family, friends, and weekly planning."
-        description="A few simple links keep our current books, plans, and prayer needs easy to share."
-      />
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {resources.map((resource) => (
-          <Card key={resource.title}>
-            <CardHeader>
-              <CardTitle>{resource.title}</CardTitle>
-              <CardDescription>{resource.description}</CardDescription>
-            </CardHeader>
-            <CardFooter>
-              <Button asChild variant="secondary" size="sm">
-                <a href={resource.href}>Open</a>
-              </Button>
-            </CardFooter>
-          </Card>
-        ))}
+      <div className="mx-auto max-w-6xl space-y-10">
+        <SectionIntro
+          eyebrow="Resources"
+          title="Helpful touchpoints for family, friends, and weekly planning."
+          description="A few simple links keep our current books, plans, and prayer needs easy to share."
+        />
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {resources.map((resource) => (
+            <Card key={resource.title}>
+              <CardHeader>
+                <CardTitle>{resource.title}</CardTitle>
+                <CardDescription>{resource.description}</CardDescription>
+              </CardHeader>
+              <CardFooter>
+                <Button asChild variant="secondary" size="sm">
+                  <a href={resource.href}>Open</a>
+                </Button>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
       </div>
     </section>
   );
