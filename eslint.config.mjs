@@ -1,5 +1,4 @@
 import { nextjs } from '@gv-tech/eslint-config';
-import { defineConfig, globalIgnores } from 'eslint/config';
 
 /**
  * ESLint configuration for Next.js projects.
@@ -7,4 +6,10 @@ import { defineConfig, globalIgnores } from 'eslint/config';
  * For more information on configuration options, see:
  * https://github.com/Garcia-Ventures/eslint-config
  */
-export default defineConfig([...nextjs, globalIgnores(['.next/**', 'out/**', 'build/**', 'next-env.d.ts'])]);
+export default [
+  ...nextjs,
+  // Add project-specific overrides here
+  {
+    ignores: ['eslint.config.mjs'],
+  },
+];
