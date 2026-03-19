@@ -1,7 +1,7 @@
-import { createServerClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@supabase/supabase-js';
 import type { Database } from './supabase-types';
 
-export function createSupabaseServerClient(req: Request, res: Response) {
+export function createSupabaseServerClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -9,5 +9,5 @@ export function createSupabaseServerClient(req: Request, res: Response) {
     throw new Error('Missing Supabase server env configuration');
   }
 
-  return createServerClient<Database>({ req, res, supabaseUrl, supabaseKey });
+  return createClient<Database>(supabaseUrl, supabaseKey);
 }

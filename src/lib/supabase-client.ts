@@ -1,5 +1,4 @@
-import { createBrowserClient } from '@supabase/auth-helpers-nextjs';
-import type { SupabaseClient } from '@supabase/supabase-js';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from './supabase-types';
 
 let supabase: SupabaseClient<Database> | null = null;
@@ -13,7 +12,7 @@ export const getBrowserSupabaseClient = (): SupabaseClient<Database> => {
       throw new Error('Missing Supabase environment variables');
     }
 
-    supabase = createBrowserClient<Database>(supabaseUrl, supabaseAnonKey);
+    supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
   }
 
   return supabase;

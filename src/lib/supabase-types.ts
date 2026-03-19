@@ -30,6 +30,7 @@ export interface Database {
           household_id?: string | null;
           created_at?: string;
         };
+        Relationships: [];
       };
       invitations: {
         Row: {
@@ -68,6 +69,7 @@ export interface Database {
           accepted_at?: string | null;
           active?: boolean;
         };
+        Relationships: [];
       };
       households: {
         Row: {
@@ -85,6 +87,7 @@ export interface Database {
           name?: string;
           created_at?: string;
         };
+        Relationships: [];
       };
       students: {
         Row: {
@@ -108,6 +111,7 @@ export interface Database {
           grade?: string;
           created_at?: string;
         };
+        Relationships: [];
       };
       curriculums: {
         Row: {
@@ -137,6 +141,7 @@ export interface Database {
           end_date?: string;
           created_at?: string;
         };
+        Relationships: [];
       };
       blackout_dates: {
         Row: {
@@ -160,6 +165,7 @@ export interface Database {
           label?: string;
           created_at?: string;
         };
+        Relationships: [];
       };
       tasks: {
         Row: {
@@ -186,11 +192,12 @@ export interface Database {
           completed?: boolean;
           created_at?: string;
         };
+        Relationships: [];
       };
     };
-    Views: Record<string, object>;
-    Functions: Record<string, object>;
-    Enums: Record<string, object>;
-    CompositeTypes: Record<string, object>;
+    Views: { [_ in never]: never };
+    Functions: { [_ in never]: never };
+    Enums: { [_ in never]: never };
+    CompositeTypes: { [_ in never]: never };
   };
 }

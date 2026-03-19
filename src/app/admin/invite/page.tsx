@@ -1,7 +1,7 @@
 'use client';
 
 import { getBrowserSupabaseClient } from '@/lib/supabase-client';
-import type { Database, Role } from '@/lib/supabase-types';
+import type { Role } from '@/lib/supabase-types';
 import { Button, Card, Input, Select, Text } from '@gv-tech/ui-web';
 import { useState } from 'react';
 
@@ -36,9 +36,7 @@ export default function AdminInvitePage() {
       active: true,
     };
 
-    const { error } = await supabase
-      .from<Database['public']['Tables']['invitations']['Insert']>('invitations')
-      .insert(payload);
+    const { error } = await supabase.from('invitations').insert(payload);
 
     if (error) {
       setMessage(`Invite create failed: ${error.message}`);

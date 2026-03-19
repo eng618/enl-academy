@@ -25,11 +25,7 @@ export default function RegisterPage() {
       }
 
       const supabase = getBrowserSupabaseClient();
-      const { data, error } = await supabase
-        .from<Database['public']['Tables']['invitations']['Row']>('invitations')
-        .select('*')
-        .eq('token', token)
-        .single();
+      const { data, error } = await supabase.from('invitations').select('*').eq('token', token).single();
       if (error || !data) {
         setMessage('Invalid or expired token');
         return;
@@ -67,14 +63,12 @@ export default function RegisterPage() {
       return;
     }
 
-    const { error: profileError } = await supabase
-      .from<Database['public']['Tables']['profiles']['Row']>('profiles')
-      .insert({
-        user_id,
-        email,
-        role: role as 'admin' | 'parent' | 'student',
-        household_id: householdId || null,
-      } as Database['public']['Tables']['profiles']['Insert']);
+    const { error: profileError } = await supabase.from('profiles').insert({
+      user_id,
+      email,
+      role: role as 'admin' | 'parent' | 'student',
+      household_id: householdId || null,
+    } as Database['public']['Tables']['profiles']['Insert']);
 
     if (profileError) {
       setMessage(`Profile create failed: ${profileError.message}`);
