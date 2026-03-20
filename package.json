@@ -9,6 +9,8 @@
     "lint": "eslint . --cache",
     "lint:fix": "eslint . --cache --fix",
     "lint:report": "eslint . --cache -o ./eslintReport.html -f html",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test --pass-with-no-tests",
     "prepare": "husky",
     "start": "next start"
   },

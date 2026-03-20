@@ -4,22 +4,36 @@ permissions:
   contents: read
 
 concurrency:
-  group: ci-${{ github.workflow }}-${{ github.ref }}
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 on:
   push:
     branches:
       - main
+      - develop
   pull_request:
     branches:
       - main
+      - develop
 
 jobs:
   checks:
-    name: Format / Lint
+    name: ${{ matrix.check.name }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        check:
+          - name: Format
+            command: bun run format:ci
+          - name: Lint
+            command: bun run lint
+          - name: Typecheck
+            command: bun run typecheck
+          - name: Test
+            command: bun run test
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -33,7 +47,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            ~/.bun
+            ~/.bun/install/cache
             node_modules
           key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
           restore-keys: |
@@ -42,11 +56,8 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Check formatting
-        run: bun run format:ci
-
-      - name: Run ESLint
-        run: bun run lint
+      - name: Run ${{ matrix.check.name }}
+        run: ${{ matrix.check.command }}
 
   build:
     name: Build
@@ -66,7 +77,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            ~/.bun
+            ~/.bun/install/cache
             node_modules
           key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
           restore-keys: |
