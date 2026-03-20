@@ -12,7 +12,8 @@
     "prepare": "husky",
     "start": "next start",
     "test": "bun test --pass-with-no-tests",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "validate": "bun scripts/validate.ts"
   },
   "dependencies": {
     "@gv-tech/ui-web": "^2.20.0",
