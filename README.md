@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ENL Academy
 
-## Getting Started
+ENL Academy is a Next.js and Supabase application for a multi-family-capable homeschool planner, delivered in ordered roadmap slices.
 
-First, run the development server:
+## Current slice
+
+The repository is currently aligned to roadmap slice 1:
+
+- families
+- profiles
+- roles
+- invites
+- row-level security
+
+Later slices for invite onboarding, dashboards, curriculum, scheduling, reading, and exports remain intentionally deferred.
+
+## Local development
+
+Run the app:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Run local CI checks:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+bun validate
+bun validate --fix
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Supabase foundation
 
-## Learn More
+Canonical SQL now lives under `supabase/`:
 
-To learn more about Next.js, take a look at the following resources:
+- `supabase/migrations/20260320173000_foundations_families_profiles_invites.sql`
+- `supabase/seed.example.sql`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Recommended bootstrap flow:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Apply migrations:
+   - `supabase db push`
+2. Create an auth user in the Supabase dashboard.
+3. Use `supabase/seed.example.sql` as a template to insert:
+   - one family row
+   - one `global_admin` profile linked to that auth user
+4. Optional verification (requires Docker running):
+   - `supabase db dump --linked --data-only --schema public --file /tmp/enl-public-data.sql`
+   - inspect `public.families` and `public.profiles` rows in the dump file
+5. Sign in through the app and visit `/planner` to verify the profile and family linkage.
 
-## Deploy on Vercel
+Applied remotely in current progress:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `20260320173000_foundations_families_profiles_invites.sql`
+- `20260321110000_seed_initial_family_and_admin.sql`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Roadmap source of truth
+
+See:
+
+- `docs/overview.md`
+- `docs/status.md`
+- `AGENTS.md`
+
+## Notes
+
+- Database changes should be committed as migrations, not as ad hoc top-level SQL snapshots.
+- Personalized household seed data should stay out of the canonical repository seed path.

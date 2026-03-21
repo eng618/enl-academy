@@ -1,33 +1,39 @@
-# ENL Academy Homeschool Planner - Project Status
+# ENL Academy Status
 
-## Completed
+## Current focus
 
-- Supabase authentication wired (magic link + password option)
-- Role model: `admin`, `parent`, `student`
-- Invitation flow: `admin/invite` and `register` via `token`
-- `profiles`, `invitations`, `households`, `students`, `curriculums`, `blackout_dates`, `tasks` SQL schema and TypeScript types
-- RLS policies authored in `supabase-policies.sql` (household-based access)
-- UI flows:
-  - `planner` dashboard + task/blackout UI
-  - `admin/students` CRUD
-  - `admin/invite` request
-- API / table-level protection with Supabase auth checks inside app
-- Stripe: not yet implemented (was not in scope yet)
+Roadmap slice 1: multi-tenant foundations for families, profiles, roles, invites, and row-level security.
 
-## In progress
+## Completed in this slice
 
-- `planner` user display: fallback `unlinked` when profile not found
-- Data seed and admin onboarding docs
+- Canonical Supabase migration created for:
+  - `families`
+  - `profiles`
+  - `invites`
+  - `app_role` enum
+- Tenant-safe RLS policies added for families, profiles, and invites.
+- Helper SQL functions added for current profile, current family, and global admin checks.
+- Sanitized seed example added for local bootstrap.
+- Remote Supabase migration applied successfully:
+  - `20260320173000_foundations_families_profiles_invites.sql`
+- Safe remote seed migration applied successfully:
+  - `20260321110000_seed_initial_family_and_admin.sql`
+- Planner route repurposed into a foundation dashboard that verifies auth, profile linkage, and family assignment.
+- Premature later-slice pages replaced with placeholders so the app no longer depends on unimplemented tables.
 
-## Remaining
+## Pending in slice 1
 
-1. fullcalendar-style combined and per-student calendar rendering
-2. student & curriculum dedicated CRUD pages (with edit/delete)
-3. server-side APIs (`api/blackout`, `api/tasks`) for business validation
-4. end-to-end test coverage for RLS and roles
-5. improve UI with validation, toasts, and mobile table layout
+- Verify RLS behavior against an authenticated user and service-role workflows.
+- Validate seeded rows in remote DB using Docker-enabled CLI flow:
+  - `supabase db dump --linked --data-only --schema public --file /tmp/enl-public-data.sql`
+  - inspect `public.families` and `public.profiles` in the dump or via Supabase Table Editor.
+
+## Next slice
+
+Roadmap slice 2: auth and invite acceptance flow.
 
 ## Notes
 
-- If UI shows `Signed in as ... (unlinked)`, check `profiles` row for user_id and household membership.
-- Create initial admin via Supabase console user + profile insert, or use invite flow.
+- Canonical database changes now belong under `supabase/migrations`.
+- Personalized household data should not be committed as canonical seed data.
+- The `register`, `admin/invite`, and richer planner flows stay intentionally deferred until the auth slice is implemented.
