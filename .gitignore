@@ -49,3 +49,10 @@ next-env.d.ts
 
 #Ignore vscode AI rules
 .github/instructions/codacy.instructions.md
+
+# OpenNext
+.open-next
+
+# Cloudflare local env
+.dev.vars
+.dev.vars.*

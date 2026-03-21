@@ -2,7 +2,7 @@
 
 ## Current focus
 
-Roadmap slice 1: multi-tenant foundations for families, profiles, roles, invites, and row-level security.
+Roadmap slice 2: auth and invite acceptance flow.
 
 ## Completed in this slice
 
@@ -28,12 +28,32 @@ Roadmap slice 1: multi-tenant foundations for families, profiles, roles, invites
   - `supabase db dump --linked --data-only --schema public --file /tmp/enl-public-data.sql`
   - inspect `public.families` and `public.profiles` in the dump or via Supabase Table Editor.
 
-## Next slice
+## Completed in slice 2 (in progress)
 
-Roadmap slice 2: auth and invite acceptance flow.
+- Login route implemented at `src/app/auth/login/page.tsx`.
+- Auth callback route implemented at `src/app/auth/callback/page.tsx`.
+- Invite acceptance route implemented at `src/app/invite/[token]/page.tsx`.
+- Admin invite creation UI activated at `src/app/admin/invite/page.tsx`.
+- Secure invite APIs implemented:
+  - `POST /api/invites`
+  - `GET /api/invites/[token]`
+  - `POST /api/invites/accept`
+- Server-side invite acceptance uses invite-derived role/family and marks tokens as accepted.
+
+## Remaining in slice 2
+
+- Add explicit route guards/middleware for protected admin-only pages.
+- Add role-aware post-login UX refinements and role-specific landing polish.
+- Add tests for invite token lifecycle edge cases.
+
+## Deployment wiring
+
+- Cloudflare Workers wiring added via OpenNext adapter.
+- Repository now includes `wrangler.jsonc`, `open-next.config.ts`, and `public/_headers`.
+- CI build now validates both Next build and OpenNext worker bundle build.
 
 ## Notes
 
 - Canonical database changes now belong under `supabase/migrations`.
 - Personalized household data should not be committed as canonical seed data.
-- The `register`, `admin/invite`, and richer planner flows stay intentionally deferred until the auth slice is implemented.
+- `register` now serves as an invite-token entry point during slice 2.

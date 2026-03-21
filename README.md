@@ -29,6 +29,27 @@ bun validate
 bun validate --fix
 ```
 
+## Cloudflare Workers wiring
+
+This repo is wired for Next.js on Cloudflare Workers using OpenNext.
+
+Worker config files:
+
+- `wrangler.jsonc`
+- `open-next.config.ts`
+- `public/_headers`
+
+Useful scripts:
+
+```bash
+bun run preview # build + local worker preview
+bun run deploy  # build + deploy worker
+bun run upload  # build + upload worker bundle
+bun run cf-typegen
+```
+
+For local Worker runtime variables, create `.dev.vars` (already gitignored).
+
 ## Supabase foundation
 
 Canonical SQL now lives under `supabase/`:

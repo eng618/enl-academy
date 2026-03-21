@@ -94,3 +94,6 @@ jobs:
 
       - name: Build
         run: bun run build
+
+      - name: Build OpenNext Worker bundle
+        run: bunx opennextjs-cloudflare build

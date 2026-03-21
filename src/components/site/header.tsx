@@ -52,20 +52,6 @@ export function SiteHeader() {
     };
   }, [supabase]);
 
-  const signIn = async () => {
-    const email = window.prompt('Enter email for magic link (supabase)');
-    if (!email) {
-      return;
-    }
-
-    const { error } = await supabase.auth.signInWithOtp({ email });
-    if (error) {
-      window.alert(`Sign in error: ${error.message}`);
-    } else {
-      window.alert('Check your email for a magic link to sign in.');
-    }
-  };
-
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
@@ -99,8 +85,8 @@ export function SiteHeader() {
               Sign out
             </Button>
           ) : (
-            <Button size="sm" onClick={signIn} variant="secondary">
-              Sign in
+            <Button asChild size="sm" variant="secondary">
+              <Link href="/auth/login">Sign in</Link>
             </Button>
           )}
         </div>
@@ -130,7 +116,7 @@ export function SiteHeader() {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem className="rounded-md px-3 py-2">
-                {session ? <button onClick={signOut}>Sign out</button> : <button onClick={signIn}>Sign in</button>}
+                {session ? <button onClick={signOut}>Sign out</button> : <Link href="/auth/login">Sign in</Link>}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

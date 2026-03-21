@@ -13,7 +13,11 @@
     "start": "next start",
     "test": "bun test --pass-with-no-tests",
     "typecheck": "tsc --noEmit",
-    "validate": "bun scripts/validate.ts"
+    "validate": "bun scripts/validate.ts",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
     "@gv-tech/ui-web": "^2.20.0",
@@ -33,7 +37,8 @@
   "devDependencies": {
     "@eng618/prettier-config": "^2.10.0",
     "@gv-tech/eslint-config": "^0.1.14",
-    "@next/eslint-plugin-next": "^16.2.2",
+    "@next/eslint-plugin-next": "^16.2.0",
+    "@opennextjs/cloudflare": "^1.17.1",
     "@types/node": "^25.5.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -43,7 +48,8 @@
     "lint-staged": "^16.4.0",
     "postcss": "^8.5.8",
     "prettier": "^3.8.1",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "wrangler": "^4.76.0"
   },
   "private": true,
   "lint-staged": {
