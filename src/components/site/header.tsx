@@ -18,12 +18,12 @@ import { useEffect, useState } from 'react';
 import { ThemeToggleClient } from './ThemeToggleClient';
 
 const navItems = [
-  { href: '#welcome', label: 'Welcome' },
-  { href: '#about', label: 'About' },
-  { href: '#faith', label: 'Faith' },
-  { href: '#learning', label: 'Learning' },
-  { href: '#rhythm', label: 'Rhythm' },
-  { href: '#resources', label: 'Resources' },
+  { href: '/#welcome', label: 'Welcome' },
+  { href: '/#about', label: 'About' },
+  { href: '/#faith', label: 'Faith' },
+  { href: '/#learning', label: 'Learning' },
+  { href: '/#rhythm', label: 'Rhythm' },
+  { href: '/#resources', label: 'Resources' },
 ] as const;
 
 export function SiteHeader() {
@@ -62,7 +62,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4">
-        <Link href="#welcome">
+        <Link href="/#welcome">
           <Text as="span" variant="h4" className="font-title">
             ENL Christian Homeschool
           </Text>

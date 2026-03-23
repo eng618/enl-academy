@@ -1,6 +1,5 @@
 'use client';
 
-import { SiteHeader } from '@/components/site/header';
 import { getBrowserSupabaseClient } from '@/lib/supabase-client';
 import { Card, Text } from '@gv-tech/ui-web';
 import { useRouter } from 'next/navigation';
@@ -42,7 +41,6 @@ export default function DashboardLandingPage() {
 
   return (
     <main className="mx-auto max-w-2xl p-6">
-      <SiteHeader />
       <Card className="space-y-3 p-4">
         <Text as="h1" variant="h3">
           Role Dashboard
