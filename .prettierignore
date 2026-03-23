@@ -1,3 +1,4 @@
 .codacy
 .husky
 supabase/**/*.sql
+wrangler.jsonc
