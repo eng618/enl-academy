@@ -5,13 +5,13 @@
 version: 2
 updates:
   # Enable version updates for github actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "monthly"
+      interval: 'weekly'
 
   # Enable version updates for bun
-  - package-ecosystem: "bun"
-    directory: "/"
+  - package-ecosystem: 'bun'
+    directory: '/'
     schedule:
-      interval: "monthly"
+      interval: 'monthly'
