@@ -1,0 +1,11 @@
+name = "enlacademy"
+compatibility_date = "2026-03-17"
+# Cloudflare Pages currently parses wrangler for pages mode; this ensures valid parsing.
+# Use the actual output directory from build pipeline so it is found during Pages deploy.
+pages_build_output_dir = ".open-next/assets"
+
+[build]
+command = "bun i && bun run build"
+
+[site]
+bucket = ".open-next/assets"
