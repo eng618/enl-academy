@@ -18,12 +18,12 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [nextPath, setNextPath] = useState('/planner');
+  const [nextPath, setNextPath] = useState('/dashboard');
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const next = params.get('next');
-    setNextPath(isSafeRedirectPath(next) ? next : '/planner');
+    setNextPath(isSafeRedirectPath(next) ? next : '/dashboard');
   }, []);
 
   useEffect(() => {

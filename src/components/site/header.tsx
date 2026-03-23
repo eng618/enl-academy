@@ -78,7 +78,7 @@ export function SiteHeader() {
 
         <div className="hidden items-center gap-2 md:flex">
           <Button asChild variant="ghost" size="sm">
-            <Link href="/planner">Planner</Link>
+            <Link href="/dashboard">Dashboard</Link>
           </Button>
           {session ? (
             <Button size="sm" onClick={signOut} variant="secondary">
@@ -112,7 +112,7 @@ export function SiteHeader() {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild className="rounded-md px-3 py-2">
-                <a href="/planner">Planner</a>
+                <a href="/dashboard">Dashboard</a>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem className="rounded-md px-3 py-2">

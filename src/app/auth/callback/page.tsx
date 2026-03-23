@@ -18,7 +18,7 @@ export default function AuthCallbackPage() {
     const finalizeAuth = async () => {
       const params = new URLSearchParams(window.location.search);
       const next = params.get('next');
-      const redirectPath = isSafeRedirectPath(next) ? next : '/planner';
+      const redirectPath = isSafeRedirectPath(next) ? next : '/dashboard';
 
       const code = params.get('code');
       const errorDescription = params.get('error_description');

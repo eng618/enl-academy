@@ -2,12 +2,12 @@ import type { Role } from './supabase-types';
 
 export function getRoleLandingPath(role: Role): string {
   if (role === 'global_admin') {
-    return '/planner?role=global_admin';
+    return '/dashboard/global-admin';
   }
 
   if (role === 'parent') {
-    return '/planner?role=parent';
+    return '/dashboard/parent';
   }
 
-  return '/planner?role=student';
+  return '/dashboard/student';
 }

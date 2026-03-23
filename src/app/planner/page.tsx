@@ -143,9 +143,15 @@ export default function PlannerPage() {
       <div className="mb-6 flex items-center justify-between gap-3">
         <div>
           <Text as="h1" variant="h3">
-            Foundation Dashboard
+            Foundation Dashboard (legacy)
           </Text>
-          <Text>Roadmap slice 1: families, profiles, roles, invites, and RLS.</Text>
+          <Text>
+            Roadmap slice 1: families, profiles, roles, invites, and RLS. New role dashboards are at{' '}
+            <a className="text-primary" href="/dashboard">
+              /dashboard
+            </a>
+            .
+          </Text>
         </div>
         {session ? <Button onClick={signOut}>Sign out</Button> : null}
       </div>
