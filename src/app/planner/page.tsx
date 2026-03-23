@@ -12,6 +12,7 @@ export default function PlannerPage() {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Database['public']['Tables']['profiles']['Row'] | null>(null);
   const [family, setFamily] = useState<Database['public']['Tables']['families']['Row'] | null>(null);
+  const [role, setRole] = useState<Database['public']['Tables']['profiles']['Row']['role'] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [message, setMessage] = useState('');
   const [authEmail, setAuthEmail] = useState('');
@@ -48,6 +49,7 @@ export default function PlannerPage() {
       }
 
       setProfile(profileData);
+      setRole(profileData.role);
 
       if (!profileData.family_id) {
         setMessage('This profile exists but is not assigned to a family yet.');
@@ -217,6 +219,31 @@ export default function PlannerPage() {
         </Card>
       </div>
 
+      <Card className="mt-4 p-4">
+        <Text variant="h4" className="mb-2">
+          Role-aware dashboard
+        </Text>
+        {role === 'global_admin' ? (
+          <ul className="list-disc pl-5 text-sm">
+            <li>Global admin action items: manage families, invites, and system settings.</li>
+            <li>See user report summaries and audit logs (planned in next slice).</li>
+          </ul>
+        ) : role === 'parent' ? (
+          <ul className="list-disc pl-5 text-sm">
+            <li>Parent task board: monitor student progress and assign review items.</li>
+            <li>Upcoming curriculum scheduling will land in Math-U-See slice.</li>
+          </ul>
+        ) : role === 'student' ? (
+          <ul className="list-disc pl-5 text-sm">
+            <li>Student view: upcoming assignments and completion status.</li>
+            <li>Reading and attendance progress dashboards are coming in later slices.</li>
+          </ul>
+        ) : (
+          <Text className="text-foreground/70 text-sm">
+            Role-based dashboard content is unavailable until profile is loaded.
+          </Text>
+        )}
+      </Card>
       <Card className="mt-4 p-4">
         <Text variant="h4" className="mb-2">
           Current slice status
