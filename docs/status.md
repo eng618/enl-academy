@@ -2,7 +2,7 @@
 
 ## Current focus
 
-Roadmap slice 2: auth and invite acceptance flow.
+Roadmap slice 3: role dashboards (global_admin, parent, student).
 
 ## Completed in this slice
 
@@ -39,6 +39,20 @@ Roadmap slice 2: auth and invite acceptance flow.
   - `GET /api/invites/[token]`
   - `POST /api/invites/accept`
 - Server-side invite acceptance uses invite-derived role/family and marks tokens as accepted.
+
+## Completed in slice 3 (just now)
+
+- Role landing path now routes to `src/lib/role-landing.ts`, with role-specific dashboard paths.
+- Added dashboard core pages:
+  - `src/app/dashboard/page.tsx`
+  - `src/app/dashboard/global-admin/page.tsx`
+  - `src/app/dashboard/parent/page.tsx`
+  - `src/app/dashboard/student/page.tsx`
+- Added dashboard layout at `src/app/dashboard/layout.tsx` with shared `SiteHeader`.
+- Updated entrypoint references from `/planner` to `/dashboard` and sticky header links accordingly.
+- Fixed anchor hash links to use absolute root paths (`/#welcome`, etc.) so they work from dashboard context.
+- Added unit tests for `getRoleLandingPath` in `src/lib/role-landing.test.ts`.
+- Verified no lint/analysis issues and tests pass (`bun test`).
 
 ## Remaining in slice 2
 
