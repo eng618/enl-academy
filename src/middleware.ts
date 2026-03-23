@@ -1,7 +1,9 @@
+import { createClient as createSupabaseMiddlewareClient } from '@/utils/supabase/middleware';
 import { NextRequest, NextResponse } from 'next/server';
 
 // Protect /admin/* routes: only allow global_admin
 export function middleware(request: NextRequest) {
+  const supabaseResponse = createSupabaseMiddlewareClient(request);
   const { pathname } = request.nextUrl;
 
   if (pathname.startsWith('/admin')) {
@@ -15,7 +17,7 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  return NextResponse.next();
+  return supabaseResponse;
 }
 
 export const config = {

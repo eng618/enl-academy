@@ -1,5 +1,6 @@
 'use client';
 
+import { SiteHeader } from '@/components/site/header';
 import { getBrowserSupabaseClient } from '@/lib/supabase-client';
 import { Button, Card, Text } from '@gv-tech/ui-web';
 import { useRouter } from 'next/navigation';
@@ -48,6 +49,7 @@ export default function GlobalAdminDashboardPage() {
 
   return (
     <main className="mx-auto max-w-5xl p-6">
+      <SiteHeader />
       <Card className="space-y-4 p-4">
         <Text as="h1" variant="h3">
           Global Admin Dashboard
