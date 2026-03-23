@@ -62,7 +62,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4">
-        <Link href="/#welcome">
+        <Link href="/">
           <Text as="span" variant="h4" className="font-title">
             ENL Christian Homeschool
           </Text>
