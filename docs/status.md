@@ -53,12 +53,13 @@ Roadmap slice 3: role dashboards (global_admin, parent, student).
 - Fixed anchor hash links to use absolute root paths (`/#welcome`, etc.) so they work from dashboard context.
 - Added unit tests for `getRoleLandingPath` in `src/lib/role-landing.test.ts`.
 - Verified no lint/analysis issues and tests pass (`bun test`).
+- Added middleware protection for dashboard role routes and admin routes using server-side profile role lookup.
+- Role cookie is now refreshed from server-side profile state on protected routes and cleared on sign-out.
+- Added invite acceptance edge-case tests for unauthenticated, invalid, used, expired, mismatched-email, and success cases.
 
 ## Remaining in slice 2
 
-- Add explicit route guards/middleware for protected admin-only pages.
 - Add role-aware post-login UX refinements and role-specific landing polish.
-- Add tests for invite token lifecycle edge cases.
 
 ## Deployment wiring
 

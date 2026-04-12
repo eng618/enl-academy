@@ -93,10 +93,11 @@ export default function InviteTokenPage({ params }: InvitePageProps) {
       return;
     }
 
-    router.replace(payload.redirectTo ?? '/planner');
+    router.replace(payload.redirectTo ?? '/dashboard');
   };
 
   const signOut = async () => {
+    document.cookie = 'role=; path=/; max-age=0';
     await supabase.auth.signOut();
   };
 

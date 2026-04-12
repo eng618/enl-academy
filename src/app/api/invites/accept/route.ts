@@ -107,8 +107,16 @@ export async function POST(request: Request) {
     );
   }
 
-  return NextResponse.json({
+  const response = NextResponse.json({
     success: true,
     redirectTo: getRoleLandingPath(invite.role),
   });
+
+  response.cookies.set('role', invite.role, {
+    path: '/',
+    sameSite: 'lax',
+    maxAge: 60 * 60 * 24 * 30, // 30 days
+  });
+
+  return response;
 }

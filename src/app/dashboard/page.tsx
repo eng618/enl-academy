@@ -32,6 +32,7 @@ export default function DashboardLandingPage() {
       }
 
       const role = profile.role;
+      document.cookie = `role=${role}; path=/; max-age=${60 * 60 * 24 * 30}; samesite=lax`;
       setStatus(`Redirecting to ${role} dashboard...`);
       router.replace(`/dashboard/${role === 'global_admin' ? 'global-admin' : role}`);
     };

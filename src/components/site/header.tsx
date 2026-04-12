@@ -53,6 +53,7 @@ export function SiteHeader() {
   }, [supabase]);
 
   const signOut = async () => {
+    document.cookie = 'role=; path=/; max-age=0';
     const { error } = await supabase.auth.signOut();
     if (error) {
       window.alert(`Sign out error: ${error.message}`);
