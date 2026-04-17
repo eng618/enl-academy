@@ -6,6 +6,8 @@ import { Button, Card, Input, Text } from '@gv-tech/ui-web';
 import type { Session } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 
+const inviteEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export default function AdminInvitePage() {
   const supabase = getBrowserSupabaseClient();
 
@@ -15,7 +17,7 @@ export default function AdminInvitePage() {
   const [email, setEmail] = useState('');
   const [role, setRole] = useState<'parent' | 'student'>('parent');
   const [familyId, setFamilyId] = useState('');
-  const [expiresInDays, setExpiresInDays] = useState(7);
+  const [expiresInDaysInput, setExpiresInDaysInput] = useState('7');
   const [inviteUrl, setInviteUrl] = useState('');
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -68,6 +70,18 @@ export default function AdminInvitePage() {
     };
   }, [familyId, supabase]);
 
+  const trimmedEmail = email.trim();
+  const isEmailValid = inviteEmailRegex.test(trimmedEmail);
+  const parsedExpires = Number(expiresInDaysInput);
+  const isExpiresInteger = Number.isInteger(parsedExpires);
+  const isExpiresInRange = parsedExpires >= 1 && parsedExpires <= 30;
+  const isExpiresValid = isExpiresInteger && isExpiresInRange;
+  const canManageInvites = Boolean(
+    session && profile && (profile.role === 'global_admin' || profile.role === 'parent'),
+  );
+  const isFamilyValid = profile?.role === 'global_admin' ? Boolean(familyId) : true;
+  const isFormValid = canManageInvites && isEmailValid && isExpiresValid && isFamilyValid;
+
   const createInvite = async () => {
     if (!session) {
       setMessage('You must sign in first.');
@@ -89,10 +103,10 @@ export default function AdminInvitePage() {
         authorization: `Bearer ${session.access_token}`,
       },
       body: JSON.stringify({
-        email,
+        email: trimmedEmail,
         role,
         familyId: profile.role === 'global_admin' ? familyId : undefined,
-        expiresInDays,
+        expiresInDays: parsedExpires,
       }),
     });
 
@@ -129,6 +143,9 @@ export default function AdminInvitePage() {
               placeholder="Invitee email"
               onChange={(event) => setEmail(event.currentTarget.value)}
             />
+            {!isEmailValid && trimmedEmail.length > 0 ? (
+              <Text className="text-sm text-red-600">Enter a valid email address.</Text>
+            ) : null}
 
             {/* fallback due to missing role-select component in @gv-tech/ui-web */}
             <label className="text-sm">
@@ -161,17 +178,27 @@ export default function AdminInvitePage() {
                 </select>
               </label>
             ) : null}
+            {profile.role === 'global_admin' && !isFamilyValid ? (
+              <Text className="text-sm text-red-600">Select a family before creating an invite.</Text>
+            ) : null}
 
-            <Input
-              type="number"
-              min={1}
-              max={30}
-              value={String(expiresInDays)}
-              placeholder="Expires in days"
-              onChange={(event) => setExpiresInDays(Number(event.currentTarget.value || 7))}
-            />
+            <label className="text-sm">
+              Invite expiration (days)
+              <Input
+                type="number"
+                min={1}
+                max={30}
+                step={1}
+                value={expiresInDaysInput}
+                placeholder="Expires in days"
+                onChange={(event) => setExpiresInDaysInput(event.currentTarget.value)}
+              />
+            </label>
+            {!isExpiresValid ? (
+              <Text className="text-sm text-red-600">Expiration must be a whole number between 1 and 30.</Text>
+            ) : null}
 
-            <Button disabled={isSubmitting} onClick={createInvite}>
+            <Button disabled={isSubmitting || !isFormValid} onClick={createInvite}>
               Create invite
             </Button>
           </>
