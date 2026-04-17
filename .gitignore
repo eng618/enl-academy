@@ -56,3 +56,6 @@ next-env.d.ts
 # Cloudflare local env
 .dev.vars
 .dev.vars.*
+
+# Wrangler local dev state
+.wrangler
