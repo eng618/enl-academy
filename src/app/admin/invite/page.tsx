@@ -1,5 +1,7 @@
 'use client';
 
+import { SiteFooter } from '@/components/site/footer';
+import { SiteHeader } from '@/components/site/header';
 import { getBrowserSupabaseClient } from '@/lib/supabase-client';
 import type { Database } from '@/lib/supabase-types';
 import {
@@ -151,81 +153,56 @@ export default function AdminInvitePage() {
   };
 
   return (
-    <main className="mx-auto max-w-4xl p-6">
-      <Card className="space-y-3 p-4">
-        <Text as="h1" variant="h3">
-          Invite Management
-        </Text>
+    <div className="text-foreground min-h-screen">
+      <SiteHeader />
+      <main className="mx-auto max-w-4xl p-6">
+        <Card className="space-y-3 p-4">
+          <Text as="h1" variant="h3">
+            Invite Management
+          </Text>
 
-        {!session ? <Text>Sign in to create invites.</Text> : null}
+          {!session ? <Text>Sign in to create invites.</Text> : null}
 
-        {session && (!profile || (profile.role !== 'global_admin' && profile.role !== 'parent')) ? (
-          <Text>Only global admins and parents can create invites.</Text>
-        ) : null}
+          {session && (!profile || (profile.role !== 'global_admin' && profile.role !== 'parent')) ? (
+            <Text>Only global admins and parents can create invites.</Text>
+          ) : null}
 
-        {session && profile && (profile.role === 'global_admin' || profile.role === 'parent') ? (
-          <Form {...form}>
-            <form className="space-y-3" onSubmit={form.handleSubmit(createInvite)}>
-              <FormField
-                control={form.control}
-                name="email"
-                rules={{
-                  required: 'Invitee email is required.',
-                  validate: (value) => inviteEmailRegex.test(value.trim()) || 'Enter a valid email address.',
-                }}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Invitee email</FormLabel>
-                    <FormControl>
-                      <Input type="email" placeholder="Invitee email" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="role"
-                rules={{ required: 'Invite role is required.' }}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Invite role</FormLabel>
-                    <FormControl>
-                      <Select value={field.value} onValueChange={field.onChange}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select invite role" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="parent">parent</SelectItem>
-                          <SelectItem value="student">student</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {profile.role === 'global_admin' ? (
+          {session && profile && (profile.role === 'global_admin' || profile.role === 'parent') ? (
+            <Form {...form}>
+              <form className="space-y-3" onSubmit={form.handleSubmit(createInvite)}>
                 <FormField
                   control={form.control}
-                  name="familyId"
-                  rules={{ required: 'Select a family before creating an invite.' }}
+                  name="email"
+                  rules={{
+                    required: 'Invitee email is required.',
+                    validate: (value) => inviteEmailRegex.test(value.trim()) || 'Enter a valid email address.',
+                  }}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Family</FormLabel>
+                      <FormLabel>Invitee email</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="Invitee email" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="role"
+                  rules={{ required: 'Invite role is required.' }}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Invite role</FormLabel>
                       <FormControl>
                         <Select value={field.value} onValueChange={field.onChange}>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select family" />
+                            <SelectValue placeholder="Select invite role" />
                           </SelectTrigger>
                           <SelectContent>
-                            {families.map((family) => (
-                              <SelectItem key={family.id} value={family.id}>
-                                {family.name}
-                              </SelectItem>
-                            ))}
+                            <SelectItem value="parent">parent</SelectItem>
+                            <SelectItem value="student">student</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
@@ -233,45 +210,74 @@ export default function AdminInvitePage() {
                     </FormItem>
                   )}
                 />
-              ) : null}
 
-              <FormField
-                control={form.control}
-                name="expiresInDays"
-                rules={{
-                  required: 'Expiration is required.',
-                  validate: (value) => {
-                    const parsed = Number(value);
-                    return Number.isInteger(parsed) && parsed >= 1 && parsed <= 30
-                      ? true
-                      : 'Expiration must be a whole number between 1 and 30.';
-                  },
-                }}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Invite expiration (days)</FormLabel>
-                    <FormControl>
-                      <Input type="number" min={1} max={30} step={1} placeholder="Expires in days" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                {profile.role === 'global_admin' ? (
+                  <FormField
+                    control={form.control}
+                    name="familyId"
+                    rules={{ required: 'Select a family before creating an invite.' }}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Family</FormLabel>
+                        <FormControl>
+                          <Select value={field.value} onValueChange={field.onChange}>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select family" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {families.map((family) => (
+                                <SelectItem key={family.id} value={family.id}>
+                                  {family.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                ) : null}
 
-              <Button type="submit" disabled={isSubmitting || !isFormValid}>
-                Create invite
-              </Button>
-            </form>
-          </Form>
-        ) : null}
+                <FormField
+                  control={form.control}
+                  name="expiresInDays"
+                  rules={{
+                    required: 'Expiration is required.',
+                    validate: (value) => {
+                      const parsed = Number(value);
+                      return Number.isInteger(parsed) && parsed >= 1 && parsed <= 30
+                        ? true
+                        : 'Expiration must be a whole number between 1 and 30.';
+                    },
+                  }}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Invite expiration (days)</FormLabel>
+                      <FormControl>
+                        <Input type="number" min={1} max={30} step={1} placeholder="Expires in days" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-        {inviteUrl ? <Text>Invite URL: {inviteUrl}</Text> : null}
-        {message ? <Text className="text-sm">{message}</Text> : null}
+                <Button type="submit" disabled={isSubmitting || !isFormValid}>
+                  Create invite
+                </Button>
+              </form>
+            </Form>
+          ) : null}
 
-        <Text className="text-foreground/70 text-sm">
-          Invite acceptance is enforced by token validity, expiration, and single-use status.
-        </Text>
-      </Card>
-    </main>
+          {inviteUrl ? <Text>Invite URL: {inviteUrl}</Text> : null}
+          {message ? <Text className="text-sm">{message}</Text> : null}
+
+          <Text className="text-foreground/70 text-sm">
+            Invite acceptance is enforced by token validity, expiration, and single-use status.
+          </Text>
+        </Card>
+      </main>
+      <SiteFooter />
+    </div>
   );
 }

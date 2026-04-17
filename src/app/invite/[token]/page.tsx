@@ -1,5 +1,7 @@
 'use client';
 
+import { SiteFooter } from '@/components/site/footer';
+import { SiteHeader } from '@/components/site/header';
 import { getBrowserSupabaseClient } from '@/lib/supabase-client';
 import { Button, Card, Text } from '@gv-tech/ui-web';
 import type { Session } from '@supabase/supabase-js';
@@ -102,47 +104,51 @@ export default function InviteTokenPage({ params }: InvitePageProps) {
   };
 
   return (
-    <main className="mx-auto max-w-2xl p-6">
-      <Card className="space-y-3 p-4">
-        <Text as="h1" variant="h3">
-          Invite acceptance
-        </Text>
+    <div className="text-foreground min-h-screen">
+      <SiteHeader />
+      <main className="mx-auto max-w-2xl p-6">
+        <Card className="space-y-3 p-4">
+          <Text as="h1" variant="h3">
+            Invite acceptance
+          </Text>
 
-        {status.status === 'loading' ? <Text>Loading invite...</Text> : null}
-        {status.status === 'invalid' ? <Text>This invite token is invalid.</Text> : null}
-        {status.status === 'expired' ? <Text>This invite has expired. Ask for a new invite.</Text> : null}
-        {status.status === 'used' ? <Text>This invite has already been used.</Text> : null}
+          {status.status === 'loading' ? <Text>Loading invite...</Text> : null}
+          {status.status === 'invalid' ? <Text>This invite token is invalid.</Text> : null}
+          {status.status === 'expired' ? <Text>This invite has expired. Ask for a new invite.</Text> : null}
+          {status.status === 'used' ? <Text>This invite has already been used.</Text> : null}
 
-        {status.status === 'valid' ? (
-          <>
-            <Text>Role: {status.invite.role}</Text>
-            <Text>Email: {status.invite.emailHint}</Text>
-            <Text>Expires: {new Date(status.invite.expiresAt).toLocaleString()}</Text>
+          {status.status === 'valid' ? (
+            <>
+              <Text>Role: {status.invite.role}</Text>
+              <Text>Email: {status.invite.emailHint}</Text>
+              <Text>Expires: {new Date(status.invite.expiresAt).toLocaleString()}</Text>
 
-            {session ? (
-              <>
-                <Text className="text-foreground/70 text-sm">Signed in as: {session.user.email}</Text>
-                <div className="flex gap-2">
-                  <Button disabled={isAccepting} onClick={acceptInvite}>
-                    Accept invite
-                  </Button>
-                  <Button disabled={isAccepting} variant="secondary" onClick={signOut}>
-                    Sign out
-                  </Button>
-                </div>
-              </>
-            ) : (
-              <Button asChild>
-                <Link href={`/auth/login?next=${encodeURIComponent(`/invite/${params.token}`)}`}>
-                  Sign in to continue
-                </Link>
-              </Button>
-            )}
-          </>
-        ) : null}
+              {session ? (
+                <>
+                  <Text className="text-foreground/70 text-sm">Signed in as: {session.user.email}</Text>
+                  <div className="flex gap-2">
+                    <Button disabled={isAccepting} onClick={acceptInvite}>
+                      Accept invite
+                    </Button>
+                    <Button disabled={isAccepting} variant="secondary" onClick={signOut}>
+                      Sign out
+                    </Button>
+                  </div>
+                </>
+              ) : (
+                <Button asChild>
+                  <Link href={`/auth/login?next=${encodeURIComponent(`/invite/${params.token}`)}`}>
+                    Sign in to continue
+                  </Link>
+                </Button>
+              )}
+            </>
+          ) : null}
 
-        {message ? <Text className="text-sm">{message}</Text> : null}
-      </Card>
-    </main>
+          {message ? <Text className="text-sm">{message}</Text> : null}
+        </Card>
+      </main>
+      <SiteFooter />
+    </div>
   );
 }
