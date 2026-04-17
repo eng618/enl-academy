@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { getBrowserSupabaseClient } from '@/lib/supabase-client';
 import { Button, Card, Text } from '@gv-tech/ui-web';
 import type { Session } from '@supabase/supabase-js';
