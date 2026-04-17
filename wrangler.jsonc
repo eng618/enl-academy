@@ -2,6 +2,13 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "main": ".open-next/worker.js",
   "name": "enl-academy",
+  // Cloudflare Workers CI uses this to build the project before deploying.
+  // opennextjs-cloudflare build runs next build internally and then packages
+  // the Cloudflare Worker bundle — do NOT use "bun run build" here or it
+  // will recurse (opennextjs-cloudflare build calls the npm build script).
+  "build": {
+    "command": "bunx opennextjs-cloudflare build"
+  },
   "compatibility_date": "2026-03-17",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {
