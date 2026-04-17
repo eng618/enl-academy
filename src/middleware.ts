@@ -96,6 +96,8 @@ export async function middleware(request: NextRequest) {
   if (pathname.startsWith('/dashboard/student') && role !== 'student') {
     return redirectWithCookies(new URL('/dashboard', request.url), supabaseResponse);
   }
+
+  return supabaseResponse;
 }
 
 export const config = {

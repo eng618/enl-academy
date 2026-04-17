@@ -1,5 +1,7 @@
 'use client';
 
+import { SiteFooter } from '@/components/site/footer';
+import { SiteHeader } from '@/components/site/header';
 import { getBrowserSupabaseClient } from '@/lib/supabase-client';
 import { Button, Card, Input, Text } from '@gv-tech/ui-web';
 import Link from 'next/link';
@@ -103,47 +105,52 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="mx-auto max-w-xl p-6">
-      <Card className="space-y-4 p-4">
-        <Text as="h1" variant="h3">
-          Sign in
-        </Text>
-        <Text className="text-foreground/70 text-sm">
-          Invite onboarding is required for non-admin users. Sign in with the invited email and continue to your invite.
-        </Text>
-
-        <Input
-          type="email"
-          value={email}
-          placeholder="Email"
-          onChange={(event) => setEmail(event.currentTarget.value)}
-        />
-        <Input
-          type="password"
-          value={password}
-          placeholder="Password"
-          onChange={(event) => setPassword(event.currentTarget.value)}
-        />
-
-        <div className="flex flex-wrap gap-2">
-          <Button disabled={isSubmitting} onClick={signIn}>
+    <div className="text-foreground min-h-screen">
+      <SiteHeader />
+      <main className="mx-auto w-full max-w-xl p-6">
+        <Card className="space-y-4 p-4">
+          <Text as="h1" variant="h3">
             Sign in
-          </Button>
-          <Button disabled={isSubmitting} variant="secondary" onClick={signUp}>
-            Sign up
-          </Button>
-          <Button disabled={isSubmitting} variant="ghost" onClick={sendMagicLink}>
-            Send magic link
-          </Button>
-        </div>
+          </Text>
+          <Text className="text-foreground/70 text-sm">
+            Invite onboarding is required for non-admin users. Sign in with the invited email and continue to your
+            invite.
+          </Text>
 
-        <Text className="text-foreground/70 text-sm">
-          Have an invite link already? Open it directly (for example,{' '}
-          <Link href="/invite/example">/invite/&lt;token&gt;</Link>).
-        </Text>
+          <Input
+            type="email"
+            value={email}
+            placeholder="Email"
+            onChange={(event) => setEmail(event.currentTarget.value)}
+          />
+          <Input
+            type="password"
+            value={password}
+            placeholder="Password"
+            onChange={(event) => setPassword(event.currentTarget.value)}
+          />
 
-        {message ? <Text className="text-sm">{message}</Text> : null}
-      </Card>
-    </main>
+          <div className="flex flex-wrap gap-2">
+            <Button disabled={isSubmitting} onClick={signIn}>
+              Sign in
+            </Button>
+            <Button disabled={isSubmitting} variant="secondary" onClick={signUp}>
+              Sign up
+            </Button>
+            <Button disabled={isSubmitting} variant="ghost" onClick={sendMagicLink}>
+              Send magic link
+            </Button>
+          </div>
+
+          <Text className="text-foreground/70 text-sm">
+            Have an invite link already? Open it directly (for example,{' '}
+            <Link href="/invite/example">/invite/&lt;token&gt;</Link>).
+          </Text>
+
+          {message ? <Text className="text-sm">{message}</Text> : null}
+        </Card>
+      </main>
+      <SiteFooter />
+    </div>
   );
 }
