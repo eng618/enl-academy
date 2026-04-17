@@ -2,11 +2,35 @@
 
 import { getBrowserSupabaseClient } from '@/lib/supabase-client';
 import type { Database } from '@/lib/supabase-types';
-import { Button, Card, Input, Text } from '@gv-tech/ui-web';
+import {
+  Button,
+  Card,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Text,
+} from '@gv-tech/ui-web';
 import type { Session } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 const inviteEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+type InviteFormValues = {
+  email: string;
+  role: 'parent' | 'student';
+  familyId: string;
+  expiresInDays: string;
+};
 
 export default function AdminInvitePage() {
   const supabase = getBrowserSupabaseClient();
@@ -14,13 +38,19 @@ export default function AdminInvitePage() {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Database['public']['Tables']['profiles']['Row'] | null>(null);
   const [families, setFamilies] = useState<Array<Database['public']['Tables']['families']['Row']>>([]);
-  const [email, setEmail] = useState('');
-  const [role, setRole] = useState<'parent' | 'student'>('parent');
-  const [familyId, setFamilyId] = useState('');
-  const [expiresInDaysInput, setExpiresInDaysInput] = useState('7');
   const [inviteUrl, setInviteUrl] = useState('');
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const form = useForm<InviteFormValues>({
+    defaultValues: {
+      email: '',
+      role: 'parent',
+      familyId: '',
+      expiresInDays: '7',
+    },
+    mode: 'onChange',
+  });
 
   useEffect(() => {
     let subscription: { unsubscribe: () => void } | null = null;
@@ -51,8 +81,8 @@ export default function AdminInvitePage() {
           .order('created_at', { ascending: true });
         setFamilies(familiesData ?? []);
 
-        if (familiesData && familiesData.length > 0 && !familyId) {
-          setFamilyId(familiesData[0].id);
+        if (familiesData && familiesData.length > 0 && !form.getValues('familyId')) {
+          form.setValue('familyId', familiesData[0].id, { shouldValidate: true });
         }
       }
 
@@ -68,21 +98,16 @@ export default function AdminInvitePage() {
     return () => {
       subscription?.unsubscribe();
     };
-  }, [familyId, supabase]);
+  }, [form, supabase]);
 
-  const trimmedEmail = email.trim();
-  const isEmailValid = inviteEmailRegex.test(trimmedEmail);
-  const parsedExpires = Number(expiresInDaysInput);
-  const isExpiresInteger = Number.isInteger(parsedExpires);
-  const isExpiresInRange = parsedExpires >= 1 && parsedExpires <= 30;
-  const isExpiresValid = isExpiresInteger && isExpiresInRange;
+  const selectedFamilyId = form.watch('familyId');
   const canManageInvites = Boolean(
     session && profile && (profile.role === 'global_admin' || profile.role === 'parent'),
   );
-  const isFamilyValid = profile?.role === 'global_admin' ? Boolean(familyId) : true;
-  const isFormValid = canManageInvites && isEmailValid && isExpiresValid && isFamilyValid;
+  const isFamilyValid = profile?.role === 'global_admin' ? Boolean(selectedFamilyId) : true;
+  const isFormValid = canManageInvites && form.formState.isValid && isFamilyValid;
 
-  const createInvite = async () => {
+  const createInvite = async (values: InviteFormValues) => {
     if (!session) {
       setMessage('You must sign in first.');
       return;
@@ -96,6 +121,9 @@ export default function AdminInvitePage() {
     setIsSubmitting(true);
     setInviteUrl('');
 
+    const trimmedEmail = values.email.trim();
+    const parsedExpires = Number(values.expiresInDays);
+
     const response = await fetch('/api/invites', {
       method: 'POST',
       headers: {
@@ -104,8 +132,8 @@ export default function AdminInvitePage() {
       },
       body: JSON.stringify({
         email: trimmedEmail,
-        role,
-        familyId: profile.role === 'global_admin' ? familyId : undefined,
+        role: values.role,
+        familyId: profile.role === 'global_admin' ? values.familyId : undefined,
         expiresInDays: parsedExpires,
       }),
     });
@@ -136,72 +164,105 @@ export default function AdminInvitePage() {
         ) : null}
 
         {session && profile && (profile.role === 'global_admin' || profile.role === 'parent') ? (
-          <>
-            <Input
-              type="email"
-              value={email}
-              placeholder="Invitee email"
-              onChange={(event) => setEmail(event.currentTarget.value)}
-            />
-            {!isEmailValid && trimmedEmail.length > 0 ? (
-              <Text className="text-sm text-red-600">Enter a valid email address.</Text>
-            ) : null}
-
-            {/* fallback due to missing role-select component in @gv-tech/ui-web */}
-            <label className="text-sm">
-              Invite role
-              <select
-                className="mt-1 w-full rounded-md border px-3 py-2"
-                value={role}
-                onChange={(event) => setRole(event.currentTarget.value as 'parent' | 'student')}
-              >
-                <option value="parent">parent</option>
-                <option value="student">student</option>
-              </select>
-            </label>
-
-            {profile.role === 'global_admin' ? (
-              // fallback due to missing family-select component in @gv-tech/ui-web
-              <label className="text-sm">
-                Family
-                <select
-                  className="mt-1 w-full rounded-md border px-3 py-2"
-                  value={familyId}
-                  onChange={(event) => setFamilyId(event.currentTarget.value)}
-                >
-                  <option value="">Select family</option>
-                  {families.map((family) => (
-                    <option key={family.id} value={family.id}>
-                      {family.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            ) : null}
-            {profile.role === 'global_admin' && !isFamilyValid ? (
-              <Text className="text-sm text-red-600">Select a family before creating an invite.</Text>
-            ) : null}
-
-            <label className="text-sm">
-              Invite expiration (days)
-              <Input
-                type="number"
-                min={1}
-                max={30}
-                step={1}
-                value={expiresInDaysInput}
-                placeholder="Expires in days"
-                onChange={(event) => setExpiresInDaysInput(event.currentTarget.value)}
+          <Form {...form}>
+            <form className="space-y-3" onSubmit={form.handleSubmit(createInvite)}>
+              <FormField
+                control={form.control}
+                name="email"
+                rules={{
+                  required: 'Invitee email is required.',
+                  validate: (value) => inviteEmailRegex.test(value.trim()) || 'Enter a valid email address.',
+                }}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Invitee email</FormLabel>
+                    <FormControl>
+                      <Input type="email" placeholder="Invitee email" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </label>
-            {!isExpiresValid ? (
-              <Text className="text-sm text-red-600">Expiration must be a whole number between 1 and 30.</Text>
-            ) : null}
 
-            <Button disabled={isSubmitting || !isFormValid} onClick={createInvite}>
-              Create invite
-            </Button>
-          </>
+              <FormField
+                control={form.control}
+                name="role"
+                rules={{ required: 'Invite role is required.' }}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Invite role</FormLabel>
+                    <FormControl>
+                      <Select value={field.value} onValueChange={field.onChange}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select invite role" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="parent">parent</SelectItem>
+                          <SelectItem value="student">student</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {profile.role === 'global_admin' ? (
+                <FormField
+                  control={form.control}
+                  name="familyId"
+                  rules={{ required: 'Select a family before creating an invite.' }}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Family</FormLabel>
+                      <FormControl>
+                        <Select value={field.value} onValueChange={field.onChange}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select family" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {families.map((family) => (
+                              <SelectItem key={family.id} value={family.id}>
+                                {family.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              ) : null}
+
+              <FormField
+                control={form.control}
+                name="expiresInDays"
+                rules={{
+                  required: 'Expiration is required.',
+                  validate: (value) => {
+                    const parsed = Number(value);
+                    return Number.isInteger(parsed) && parsed >= 1 && parsed <= 30
+                      ? true
+                      : 'Expiration must be a whole number between 1 and 30.';
+                  },
+                }}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Invite expiration (days)</FormLabel>
+                    <FormControl>
+                      <Input type="number" min={1} max={30} step={1} placeholder="Expires in days" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <Button type="submit" disabled={isSubmitting || !isFormValid}>
+                Create invite
+              </Button>
+            </form>
+          </Form>
         ) : null}
 
         {inviteUrl ? <Text>Invite URL: {inviteUrl}</Text> : null}
