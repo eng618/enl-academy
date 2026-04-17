@@ -8,8 +8,9 @@ import { useEffect, useState } from 'react';
 export default function StudentDashboardPage() {
   const supabase = getBrowserSupabaseClient();
   const router = useRouter();
-  const [status, setStatus] = useState('Loading student dashboard...');
-  const [profileRole, setProfileRole] = useState<string | null>(null);
+  const [displayName, setDisplayName] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const load = async () => {
@@ -17,7 +18,8 @@ export default function StudentDashboardPage() {
       const session = data.session;
 
       if (!session) {
-        setStatus('You must sign in to access the dashboard.');
+        setErrorMessage('You must sign in to access the dashboard.');
+        setLoading(false);
         return;
       }
 
@@ -28,40 +30,78 @@ export default function StudentDashboardPage() {
         .single();
 
       if (error || !profile) {
-        setStatus('Profile not found. Complete invite onboarding first.');
+        setErrorMessage('Profile not found. Complete invite onboarding first.');
+        setLoading(false);
         return;
       }
 
       if (profile.role !== 'student') {
-        setStatus('Access denied: this page is only for students.');
+        setErrorMessage('Access denied: this page is only for students.');
         setTimeout(() => router.replace('/dashboard'), 1500);
+        setLoading(false);
         return;
       }
 
-      setProfileRole(profile.role);
-      setStatus(`Welcome, ${profile.display_name ?? 'Student'}`);
+      setDisplayName(profile.display_name);
+      setLoading(false);
     };
 
     void load();
   }, [router, supabase]);
 
-  return (
-    <main className="mx-auto max-w-5xl p-6">
-      <Card className="space-y-4 p-4">
-        <Text as="h1" variant="h3">
-          Student Dashboard
-        </Text>
-        <Text>{status}</Text>
+  const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 
-        {profileRole === 'student' ? (
-          <div className="space-y-2">
-            <Text>Tasks available in this slice:</Text>
-            <ul className="list-disc pl-5 text-sm">
-              <li>View your profile and assigned family information</li>
-              <li>Future: track assignments, grades, and attendance</li>
-            </ul>
-          </div>
-        ) : null}
+  if (loading) {
+    return (
+      <main className="mx-auto max-w-3xl p-6">
+        <Text>Loading your dashboard…</Text>
+      </main>
+    );
+  }
+
+  if (errorMessage) {
+    return (
+      <main className="mx-auto max-w-3xl p-6">
+        <Card className="p-4">
+          <Text>{errorMessage}</Text>
+        </Card>
+      </main>
+    );
+  }
+
+  return (
+    <main className="mx-auto max-w-3xl space-y-6 p-6">
+      <div>
+        <Text as="h1" variant="h3">
+          Good day, {displayName}!
+        </Text>
+        <Text className="text-foreground/60 mt-1 text-sm">{today}</Text>
+      </div>
+
+      {/* Today's tasks — placeholder for slice 4 (Math-U-See curriculum + task generation) */}
+      <Card className="space-y-3 p-4">
+        <Text as="h2" variant="h4">
+          Today's Tasks
+        </Text>
+        <div className="border-muted rounded-md border border-dashed p-6 text-center">
+          <Text className="text-foreground/50 text-sm">No tasks scheduled yet.</Text>
+          <Text className="text-foreground/40 mt-1 text-xs">
+            Math curriculum tasks will appear here once your parent sets up your enrollment.
+          </Text>
+        </div>
+      </Card>
+
+      {/* Currently reading — placeholder for slice 6 (reading list) */}
+      <Card className="space-y-3 p-4">
+        <Text as="h2" variant="h4">
+          Currently Reading
+        </Text>
+        <div className="border-muted rounded-md border border-dashed p-6 text-center">
+          <Text className="text-foreground/50 text-sm">No books assigned yet.</Text>
+          <Text className="text-foreground/40 mt-1 text-xs">
+            Your reading list will appear here once your parent assigns books.
+          </Text>
+        </div>
       </Card>
     </main>
   );

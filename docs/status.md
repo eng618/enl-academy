@@ -2,7 +2,7 @@
 
 ## Current focus
 
-Roadmap slice 3: role dashboards (global_admin, parent, student).
+Roadmap slice 4: Math-U-See curriculum model + task generation.
 
 ## Completed in this slice
 
@@ -40,7 +40,7 @@ Roadmap slice 3: role dashboards (global_admin, parent, student).
   - `POST /api/invites/accept`
 - Server-side invite acceptance uses invite-derived role/family and marks tokens as accepted.
 
-## Completed in slice 3 (just now)
+## Completed in slice 3
 
 - Role landing path now routes to `src/lib/role-landing.ts`, with role-specific dashboard paths.
 - Added dashboard core pages:
@@ -56,6 +56,11 @@ Roadmap slice 3: role dashboards (global_admin, parent, student).
 - Added middleware protection for dashboard role routes and admin routes using server-side profile role lookup.
 - Role cookie is now refreshed from server-side profile state on protected routes and cleared on sign-out.
 - Added invite acceptance edge-case tests for unauthenticated, invalid, used, expired, mismatched-email, and success cases.
+- **Global Admin dashboard** now shows live families + profiles table with view-detail toggle per row.
+- **Parent dashboard** now shows student profile cards for the parent's family; curriculum/reading listed as coming-soon.
+- **Student dashboard** now shows a "Today" view with Today's Tasks and Currently Reading empty-state placeholders.
+- Dashboard layout now uses `DashboardHeader` (`src/components/site/dashboard-header.tsx`) with role-aware nav links (global_admin: Families · Invites; parent: Students · Invites; student: Today).
+- Typecheck and lint pass on all changed files.
 
 ## Remaining in slice 2
 

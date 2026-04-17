@@ -4,15 +4,7 @@ ENL Academy is a Next.js and Supabase application for a multi-family-capable hom
 
 ## Current slice
 
-The repository is currently aligned to roadmap slice 1:
-
-- families
-- profiles
-- roles
-- invites
-- row-level security
-
-Later slices for invite onboarding, dashboards, curriculum, scheduling, reading, and exports remain intentionally deferred.
+Slices 1–3 are complete (foundations, auth/invites, role dashboards). The next slice is 4: Math-U-See curriculum + task generation.
 
 ## Local development
 
@@ -50,30 +42,41 @@ bun run cf-typegen
 
 For local Worker runtime variables, create `.dev.vars` (already gitignored).
 
-## Supabase foundation
+## Admin bootstrap
 
-Canonical SQL now lives under `supabase/`:
+There is no public admin registration flow — `global_admin` accounts must be provisioned manually. Follow these steps for any new admin:
 
-- `supabase/migrations/20260320173000_foundations_families_profiles_invites.sql`
-- `supabase/seed.example.sql`
+### 1. Sign up via the app
 
-Recommended bootstrap flow:
+Go to `/auth/login` and click **Sign up** using the admin's email and a strong password. If Supabase email confirmation is enabled, verify the email first.
 
-1. Apply migrations:
-   - `supabase db push`
-2. Create an auth user in the Supabase dashboard.
-3. Use `supabase/seed.example.sql` as a template to insert:
-   - one family row
-   - one `global_admin` profile linked to that auth user
-4. Optional verification (requires Docker running):
-   - `supabase db dump --linked --data-only --schema public --file /tmp/enl-public-data.sql`
-   - inspect `public.families` and `public.profiles` rows in the dump file
-5. Sign in through the app and visit `/planner` to verify the profile and family linkage.
+### 2. Run the bootstrap script
 
-Applied remotely in current progress:
+Open `supabase/scripts/bootstrap_admin.sql` in an editor, fill in the three variables at the top:
 
-- `20260320173000_foundations_families_profiles_invites.sql`
-- `20260321110000_seed_initial_family_and_admin.sql`
+```sql
+v_admin_email  := 'you@example.com';  -- the email used in step 1
+v_display_name := 'Your Name';
+v_family_name  := 'Your Family';      -- ignored if a family already exists
+```
+
+Then paste the entire script into the [Supabase SQL Editor](https://supabase.com/dashboard/project/_/sql) and click **Run**. The SQL editor runs as the service role, which bypasses RLS — that is intentional for the one-time bootstrap only.
+
+The script will:
+
+- Look up the auth user by email (fails with a clear message if not found)
+- Create a family row if none exists yet (or reuse the existing one)
+- Upsert a `global_admin` profile linked to that user
+
+### 3. Sign in and verify
+
+Go to `/auth/login`, sign in, and confirm you land on `/dashboard/global-admin` with your family and profile visible.
+
+### Adding more admins
+
+Repeat steps 1–3 with the new admin's email. The script is idempotent — re-running it on an existing profile updates the role and display name without creating duplicates.
+
+> **Note:** The invite flow (`/admin/invite`) deliberately cannot create `global_admin` invites (enforced by a DB constraint). All admin provisioning goes through this script.
 
 ## Roadmap source of truth
 
