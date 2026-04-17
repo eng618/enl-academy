@@ -13,6 +13,7 @@ function redirectWithCookies(url: URL, sourceResponse: NextResponse) {
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const isProtectedPath = pathname.startsWith('/dashboard') || pathname.startsWith('/admin');
 
   // --- Supabase session refresh ---
   let supabaseResponse = NextResponse.next({
@@ -41,12 +42,25 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // --- Authentication gate: all matched routes require a valid session ---
-  if (!user) {
+  // --- Authentication gate: protected routes require a valid session ---
+  if (!user && isProtectedPath) {
     const url = request.nextUrl.clone();
     url.pathname = '/auth/login';
     url.searchParams.set('next', pathname);
     return redirectWithCookies(url, supabaseResponse);
+  }
+
+  if (!user) {
+    return supabaseResponse;
+  }
+
+  // If already authenticated, never keep the user on login.
+  if (user && pathname === '/auth/login') {
+    const requestedNext = request.nextUrl.searchParams.get('next');
+    const safeNext =
+      requestedNext && requestedNext.startsWith('/') && !requestedNext.startsWith('//') ? requestedNext : '/dashboard';
+
+    return redirectWithCookies(new URL(safeNext, request.url), supabaseResponse);
   }
 
   const { data: profile } = await supabase.from('profiles').select('role').eq('user_id', user.id).maybeSingle();
@@ -101,5 +115,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/admin/:path*'],
+  matcher: ['/dashboard/:path*', '/admin/:path*', '/auth/login'],
 };

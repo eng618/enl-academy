@@ -90,3 +90,21 @@ See:
 
 - Database changes should be committed as migrations, not as ad hoc top-level SQL snapshots.
 - Personalized household seed data should stay out of the canonical repository seed path.
+
+## Auth troubleshooting
+
+If sign-in appears successful but the app stays on `/auth/login`, the browser may be blocking Supabase auth cookies or auth requests.
+
+Common causes:
+
+- Built-in ad blockers or strict tracking protection
+- Privacy extensions that block storage or cross-site requests
+- Aggressive cookie restrictions in browser privacy settings
+
+Quick checks:
+
+1. Disable ad/tracking blocking for this site and try again.
+2. Open `/auth/login` after signing in; authenticated users should be redirected away from login.
+3. If needed, retry in a private window with extensions disabled.
+
+This app also enforces a server-side redirect in middleware for authenticated visits to `/auth/login`, but browser-level blocking can still prevent the session from being persisted correctly.
