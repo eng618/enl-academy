@@ -8,8 +8,10 @@ import { nextjs } from '@gv-tech/eslint-config';
  */
 export default [
   ...nextjs,
-  // Add project-specific overrides here
   {
-    ignores: ['eslint.config.mjs'],
+    // Project-level ignores on top of @gv-tech/eslint-config commonIgnores.
+    // .open-next and .wrangler contain generated Cloudflare Worker bundles
+    // (1000+ JS files) that must not be linted.
+    ignores: ['eslint.config.mjs', '.open-next/**', '.wrangler/**', 'tsconfig.tsbuildinfo'],
   },
 ];
