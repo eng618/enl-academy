@@ -1,4 +1,5 @@
-import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import { createBrowserClient } from '@supabase/ssr';
+import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from './supabase-types';
 
 let supabase: SupabaseClient<Database> | null = null;
@@ -12,7 +13,9 @@ export const getBrowserSupabaseClient = (): SupabaseClient<Database> => {
       throw new Error('Missing Supabase environment variables');
     }
 
-    supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
+    // Use the SSR browser client so auth state is mirrored to cookies
+    // and available to middleware-protected routes.
+    supabase = createBrowserClient<Database>(supabaseUrl, supabaseAnonKey);
   }
 
   return supabase;
