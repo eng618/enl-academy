@@ -45,7 +45,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^10.2.0",
-    "eslint-config-next": "16.2.4",
+    "eslint-config-next": "16.2.6",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
     "postcss": "^8.5.8",
