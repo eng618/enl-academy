@@ -34,7 +34,7 @@
     "react": "19.2.5",
     "react-dom": "19.2.5",
     "tailwind-merge": "^3.5.0",
-    "tailwindcss": "^4.2.2"
+    "tailwindcss": "^4.3.0"
   },
   "devDependencies": {
     "@eng618/prettier-config": "^2.10.0",
